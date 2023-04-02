@@ -51,14 +51,15 @@ app.post("/api/user/register", (req, res) => {
 });
 
 app.post("/api/user/login", (req, res) => {
-  let payload = {
-    _id: user._id,
-    userName: user.userName,
-  };
-
-  let token = jwt.sign(payload, jwtOptions.secretOrKey);
+  
 
   userService.checkUser(req.body).then((user) => {
+    let payload = {
+      _id: user._id,
+      userName: user.userName,
+    };
+  
+    let token = jwt.sign(payload, jwtOptions.secretOrKey);
       res.json({ message: "login successful", token: token });
     }).catch((msg) => {
       res.status(422).json({ message: msg });
